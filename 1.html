@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest()
+            xhr.open(method, url)
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.onreadystatechange = function () {
+                //这里是异步执行
+                // 4 (完成)响应内容解析完成,可以在客户端调用
+                if (xhr.readyState == 4) {
+                    if (xhr.status === 200) {
+                        resolve(xhr.responseText)
+                    }
+                }
+            }
+            data = JSON.stringify(data)
+            xhr.send(data)
+        });
+        ajax({
+            url:'http://120.27.208.254/api/v1//browseData',
+            method:'post',
+            data:{
+                username:'admin',
+                password:'123456'
+            }
+        })
+    </script>
+</body>
+</html>

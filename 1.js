@@ -1,3 +1,5 @@
+
+const BASEURL = 'http://120.27.208.254/api/v1/admin'
 const options = {
     uuid:'',
     // 进入时间
@@ -93,9 +95,13 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
     const ewmFn = () => { 
         ewmFnSetTimeont = setTimeout(async() => {
             const r = await ajax({
-                url: 'http://localhost:8080/upload.js',
+                url: BASEURL+'/browseData',
                 method: 'POST',
-                data: {type:'QRcode_touchstart',time:'700'}
+                data: {
+                    uuid: options.uuid,
+                    type: 'QRcode_touchstart',
+                    time: '700'
+                }
             })
             console.log('触发长按事件')
         },700)
@@ -130,7 +136,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
         options.entry_time = getTime();
         // 进入的时间
         const r = await ajax({
-            url: 'http://localhost:8080/upload.js',
+            url: BASEURL+'/browseData',
             method: 'POST',
             data: {
                 // id
@@ -140,11 +146,12 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                 // 当前时间
                 currentTime: getTime(),
                 // ip
-                ip: getIp(),
+                // ip: getIp(),
                 // 城市
                 city: getCity(),
                 // 是否是微信浏览器
                 isWxBrowser: getIsWxBrowser(),
+                navigatorUserAgent:navigator.userAgent,
             }
         })
         getDom('.ewm1').addEventListener('touchstart',ewmFn)
@@ -159,7 +166,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
 
             // 记录位子
             const r = await ajax({
-                url: 'http://localhost:8080/upload.js',
+                url: BASEURL+'/browseData',
                 method: 'POST',
                 data: {
                     // id
@@ -169,7 +176,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                     // 当前时间
                     currentTime: getTime(),
                     // ip
-                    ip: getIp(),
+                    // ip: getIp(),
                     // 城市
                     city: getCity(),
                     // 是否是微信浏览器
@@ -185,7 +192,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                 options.stop_time = Number(options.stop_time) + 5000;
                 // 停留的时间
                 const r = await ajax({
-                    url: 'http://localhost:8080/upload.js',
+                    url: BASEURL+'/browseData',
                     method: 'POST',
                     data: {
                         // id
@@ -195,7 +202,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                         // 当前时间
                         currentTime: getTime(),
                         // ip
-                        ip: getIp(),
+                        // ip: getIp(),
                         // 城市
                         city: getCity(),
                         // 是否是微信浏览器
@@ -208,16 +215,12 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                 }) 
             },5000)
         },2000)
-        // console.log('------------')
-        // window.onscroll = () => { 
-        //     console.log(123)
-        // }
     }
 
     window.onpagehide = async () => {
         // 离开的时间
         const r = await ajax({
-            url: 'http://localhost:8080/upload.js',
+            url: BASEURL+'/browseData',
             method: 'POST',
             data: {
                  // id
@@ -227,7 +230,7 @@ const ajax = ({ url, method, data }) => new Promise((resolve, reject) => {
                  // 当前时间
                  currentTime: getTime(),
                  // ip
-                 ip: getIp(),
+                //  ip: getIp(),
                  // 城市
                  city: getCity(),
                  // 是否是微信浏览器
